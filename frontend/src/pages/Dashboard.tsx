@@ -119,6 +119,8 @@ const Dashboard: React.FC = () => {
           background: linear-gradient(135deg, #EFF6FF 0%, #F0F8FF 50%, #E0F2FE 100%);
           font-family: 'DM Sans', sans-serif;
           color: #1E3A5F;
+          overflow-x: hidden;
+          max-width: 100vw;
         }
         .nav-bar {
           display: flex;

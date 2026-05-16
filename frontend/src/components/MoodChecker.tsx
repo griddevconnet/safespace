@@ -82,6 +82,8 @@ const MoodChecker: React.FC<MoodCheckerProps> = ({ onMoodChange, myMood }) => {
         .mood-checker-wrap {
           font-family: 'DM Sans', sans-serif;
           color: #1E3A5F;
+          overflow-x: hidden;
+          max-width: 100vw;
         }
         .mood-section-title {
           font-family: 'DM Serif Display', serif;
