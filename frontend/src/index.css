@@ -4,14 +4,31 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --bg-primary: #F0F8FF;
+  --bg-secondary: #EFF6FF;
+  --text-primary: #1E3A5F;
+  --text-secondary: #64748B;
+  --border-color: rgba(59, 130, 246, 0.15);
+}
+
+[data-theme="dark"] {
+  --bg-primary: #0F172A;
+  --bg-secondary: #1E293B;
+  --text-primary: #F1F5F9;
+  --text-secondary: #94A3B8;
+  --border-color: rgba(59, 130, 246, 0.3);
+}
+
 body {
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #F0F8FF;
-  color: #4A5568;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   margin: 0;
   overflow-x: hidden;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 html, body {

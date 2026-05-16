@@ -13,8 +13,13 @@ const GoogleFonts = () => (
 const Settings = () => {
   const navigate = useNavigate();
   const { username, userId, logout } = useAuth();
-  const [theme, setTheme] = React.useState('light');
+  const [theme, setTheme] = React.useState(localStorage.getItem('theme') || 'light');
   const [notifications, setNotifications] = React.useState(true);
+
+  React.useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
 
   const handleLogout = () => {
     logout();
@@ -243,12 +248,12 @@ const Settings = () => {
               Partner Connection
             </button>
 
-            <button style={styles.button}>
+            <button style={styles.button} onClick={() => navigate('/profile')}>
               <FiUser style={styles.settingIcon} />
               Edit Profile
             </button>
 
-            <button style={styles.button}>
+            <button style={styles.button} onClick={() => navigate('/privacy')}>
               <FiSettings style={styles.settingIcon} />
               Privacy Settings
             </button>

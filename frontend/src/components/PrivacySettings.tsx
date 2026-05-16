@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FiShield, FiEye, FiBell, FiVolume2, FiLock } from 'react-icons/fi';
+import { FiShield, FiEye, FiBell, FiVolume2, FiLock, FiArrowLeft } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 import api from '../api';
 import { usePushNotifications } from '../hooks/usePushNotifications';
 
@@ -13,6 +14,7 @@ interface PrivacySettings {
 }
 
 const PrivacySettings: React.FC = () => {
+  const navigate = useNavigate();
   const [settings, setSettings] = useState<PrivacySettings>({
     is_private: false,
     show_mood_to_partner: true,
@@ -234,6 +236,26 @@ const PrivacySettings: React.FC = () => {
           margin-bottom: 1rem;
           font-size: 0.9rem;
         }
+        .back-button {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.6rem 1rem;
+          border: 1px solid rgba(59, 130, 246, 0.25);
+          background: rgba(255, 255, 255, 0.7);
+          border-radius: 12px;
+          color: #64748B;
+          font-family: 'DM Sans', sans-serif;
+          font-size: 0.85rem;
+          cursor: pointer;
+          transition: all 0.2s;
+          margin-bottom: 1.5rem;
+        }
+        .back-button:hover {
+          background: rgba(59, 130, 246, 0.1);
+          color: #3B82F6;
+          border-color: rgba(59, 130, 246, 0.4);
+        }
         @media (max-width: 480px) {
           .privacy-card {
             padding: 1.5rem 1rem;
@@ -252,6 +274,13 @@ const PrivacySettings: React.FC = () => {
           transition={{ duration: 0.3 }}
           className="privacy-card"
         >
+          <button
+            onClick={() => navigate('/settings')}
+            className="back-button"
+          >
+            <FiArrowLeft size={16} /> Back to Settings
+          </button>
+
           <div className="privacy-header">
             <h1 className="privacy-title">Privacy Settings</h1>
             <p className="privacy-subtitle">Control your privacy and notifications</p>

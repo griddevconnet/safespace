@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FiUser, FiMail, FiCalendar, FiPhone, FiImage, FiEdit2 } from 'react-icons/fi';
+import { FiUser, FiMail, FiCalendar, FiPhone, FiImage, FiEdit2, FiArrowLeft } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 import api from '../api';
 
 interface ProfileData {
@@ -12,6 +13,7 @@ interface ProfileData {
 }
 
 const EditProfile: React.FC = () => {
+  const navigate = useNavigate();
   const [profileData, setProfileData] = useState<ProfileData>({
     display_name: '',
     bio: '',
@@ -190,6 +192,26 @@ const EditProfile: React.FC = () => {
           margin-bottom: 1rem;
           font-size: 0.9rem;
         }
+        .back-button {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.6rem 1rem;
+          border: 1px solid rgba(59, 130, 246, 0.25);
+          background: rgba(255, 255, 255, 0.7);
+          border-radius: 12px;
+          color: #64748B;
+          font-family: 'DM Sans', sans-serif;
+          font-size: 0.85rem;
+          cursor: pointer;
+          transition: all 0.2s;
+          margin-bottom: 1.5rem;
+        }
+        .back-button:hover {
+          background: rgba(59, 130, 246, 0.1);
+          color: #3B82F6;
+          border-color: rgba(59, 130, 246, 0.4);
+        }
         @media (max-width: 480px) {
           .profile-card {
             padding: 1.5rem 1rem;
@@ -205,6 +227,13 @@ const EditProfile: React.FC = () => {
           transition={{ duration: 0.3 }}
           className="profile-card"
         >
+          <button
+            onClick={() => navigate('/settings')}
+            className="back-button"
+          >
+            <FiArrowLeft size={16} /> Back to Settings
+          </button>
+
           <div className="profile-header">
             <h1 className="profile-title">Edit Profile</h1>
             <p className="profile-subtitle">Update your personal information</p>
