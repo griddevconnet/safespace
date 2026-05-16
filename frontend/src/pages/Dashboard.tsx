@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useAuth } from '../AuthContext';
 import { useNavigate } from 'react-router-dom';
 import MoodChecker from '../components/MoodChecker';
@@ -37,7 +37,7 @@ const Dashboard: React.FC = () => {
   const [myLatestMood, setMyLatestMood] = useState<MoodEntry | null>(null);
   const [partnerLatestMood, setPartnerLatestMood] = useState<MoodEntry | null>(null);
   const [navVisible, setNavVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const lastScrollY = useRef(0);
 
   const handleWebSocketMessage = useCallback((message: any) => {
     if (message.type === 'mood_message') {
@@ -84,17 +84,17 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY && currentScrollY > 50) {
+      if (currentScrollY > lastScrollY.current && currentScrollY > 50) {
         setNavVisible(false);
-      } else if (currentScrollY < lastScrollY) {
+      } else if (currentScrollY < lastScrollY.current) {
         setNavVisible(true);
       }
-      setLastScrollY(currentScrollY);
+      lastScrollY.current = currentScrollY;
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
+  }, []);
 
   const handleMoodUpdateFromChecker = useCallback((newMood: MoodEntry) => {
     setMyLatestMood(newMood);
