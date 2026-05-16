@@ -65,36 +65,41 @@ const Auth: React.FC = () => {
           50% { transform: translateY(-8px) rotate(2deg); }
         }
         .auth-bg {
+          position: relative;
           min-height: 100vh;
-          background: linear-gradient(135deg, #EFF6FF 0%, #F0F8FF 50%, #E0F2FE 100%);
-          font-family: 'DM Sans', sans-serif;
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 1.5rem;
-          position: relative;
+          padding: 1rem;
           overflow: hidden;
+          max-width: 100vw;
         }
         .blob {
           position: absolute;
           border-radius: 50%;
           opacity: 0.12;
           pointer-events: none;
+          max-width: 50vw;
+          max-height: 50vw;
         }
         .blob-1 {
           width: 340px;
           height: 340px;
+          max-width: 200px;
+          max-height: 200px;
           background: #3B82F6;
-          top: -80px;
-          left: -80px;
+          top: -40px;
+          left: -40px;
           animation: float 8s ease-in-out infinite;
         }
         .blob-2 {
           width: 280px;
           height: 280px;
+          max-width: 150px;
+          max-height: 150px;
           background: #60A5FA;
-          bottom: -60px;
-          right: -60px;
+          bottom: -30px;
+          right: -30px;
           animation: float 10s ease-in-out infinite reverse;
         }
         .auth-card {
