@@ -223,7 +223,7 @@ const Dashboard: React.FC = () => {
         .main-content {
           max-width: 860px;
           margin: 0 auto;
-          padding: 1.5rem 1rem 3rem;
+          padding: 6rem 1.5rem 2rem;
         }
         .welcome-banner {
           text-align: center;
