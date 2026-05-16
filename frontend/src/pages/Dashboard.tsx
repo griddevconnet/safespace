@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import MoodChecker from '../components/MoodChecker';
 import useWebSocket from '../hooks/useWebSocket';
 import { motion } from 'framer-motion';
-import { FiLogOut, FiSettings } from 'react-icons/fi';
+import { FiLogOut, FiSettings, FiUser, FiShield } from 'react-icons/fi';
 
 interface MoodEntry {
   id: number;
@@ -395,6 +395,12 @@ const Dashboard: React.FC = () => {
           </div>
           <div className="nav-right">
             <span className="nav-greeting">Hi, {username} ✨</span>
+            <button className="icon-btn" title="Profile" aria-label="Profile" onClick={() => navigate('/profile')}>
+              <FiUser size={17} />
+            </button>
+            <button className="icon-btn" title="Privacy" aria-label="Privacy" onClick={() => navigate('/privacy')}>
+              <FiShield size={17} />
+            </button>
             <button className="icon-btn" title="Settings" aria-label="Settings" onClick={() => navigate('/settings')}>
               <FiSettings size={17} />
             </button>
