@@ -19,7 +19,7 @@ const useWebSocket = (path: string, onMessage: (message: WebSocketMessage) => vo
       return;
     }
 
-    const WS_BASE_URL = import.meta.env.VITE_WS_BASE_URL || 'ws://localhost:8000';
+    const WS_BASE_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:8000';
     const socket = new WebSocket(`${WS_BASE_URL}${path}?token=${token}`);
 
     socket.onopen = () => {
