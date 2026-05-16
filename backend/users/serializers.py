@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
+from .models import PushSubscription
 
 User = get_user_model()
 
@@ -31,3 +32,8 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('display_name', 'bio', 'avatar', 'birth_date', 'phone_number')
+
+class PushSubscriptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PushSubscription
+        fields = ('endpoint', 'p256dh', 'auth')

@@ -3,7 +3,8 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate, get_user_model
-from .serializers import RegisterSerializer, UserSerializer, ProfileUpdateSerializer
+from .serializers import RegisterSerializer, UserSerializer, ProfileUpdateSerializer, PushSubscriptionSerializer
+from .models import PushSubscription
 
 User = get_user_model()
 
@@ -150,4 +151,27 @@ class PrivacySettingsView(APIView):
                 'notification_sound': user.notification_sound
             }
         })
+
+class PushSubscriptionView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request):
+        """Subscribe to push notifications"""
+        serializer = PushSubscriptionSerializer(data=request.data)
+        if serializer.is_valid():
+            # Delete existing subscriptions for this user
+            PushSubscription.objects.filter(user=request.user).delete()
+            
+            # Create new subscription
+            PushSubscription.objects.create(
+                user=request.user,
+                **serializer.validated_data
+            )
+            return Response({'message': 'Successfully subscribed to push notifications'})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request):
+        """Unsubscribe from push notifications"""
+        PushSubscription.objects.filter(user=request.user).delete()
+        return Response({'message': 'Successfully unsubscribed from push notifications'})
 

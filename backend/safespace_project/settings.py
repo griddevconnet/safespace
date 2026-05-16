@@ -178,6 +178,13 @@ CHANNEL_LAYERS = {
     },
 }
 
+# Web Push Notifications (VAPID)
+VAPID_PUBLIC_KEY = env('VAPID_PUBLIC_KEY', default='')
+VAPID_PRIVATE_KEY = env('VAPID_PRIVATE_KEY', default='')
+VAPID_CLAIMS = {
+    'sub': 'mailto:admin@safespace.app'
+}
+
 ASGI_APPLICATION = 'safespace_project.asgi.application'
 
 # Custom User Model

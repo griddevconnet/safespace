@@ -27,3 +27,16 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return f"{self.username} ({self.partner_code or 'No code'})"
+
+class PushSubscription(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='push_subscriptions')
+    endpoint = models.URLField()
+    p256dh = models.CharField(max_length=255)
+    auth = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        unique_together = ('user', 'endpoint')
+    
+    def __str__(self):
+        return f"{self.user.username} - {self.endpoint[:50]}..."
