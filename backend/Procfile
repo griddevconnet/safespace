@@ -1,1 +1,1 @@
-web: bash start.sh
+web: uvicorn safespace_project.asgi:application --host 0.0.0.0 --port $PORT
