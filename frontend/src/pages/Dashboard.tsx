@@ -36,6 +36,8 @@ const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const [myLatestMood, setMyLatestMood] = useState<MoodEntry | null>(null);
   const [partnerLatestMood, setPartnerLatestMood] = useState<MoodEntry | null>(null);
+  const [navVisible, setNavVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   const handleWebSocketMessage = useCallback((message: any) => {
     if (message.type === 'mood_message') {
@@ -78,6 +80,21 @@ const Dashboard: React.FC = () => {
       fetchPartnerInfo();
     }
   }, [isAuthenticated, userId]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY && currentScrollY > 50) {
+        setNavVisible(false);
+      } else if (currentScrollY < lastScrollY) {
+        setNavVisible(true);
+      }
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   const handleMoodUpdateFromChecker = useCallback((newMood: MoodEntry) => {
     setMyLatestMood(newMood);
@@ -387,8 +404,9 @@ const Dashboard: React.FC = () => {
         <motion.nav
           className="nav-bar"
           initial={{ y: -60, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
+          animate={{ y: navVisible ? 0 : -60, opacity: navVisible ? 1 : 0 }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
+          style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000 }}
         >
           <div className="nav-logo">
             ♥ <span>SafeSpace</span>
