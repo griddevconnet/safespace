@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #F0F8FF;
+  color: #4A5568;
+  margin: 0;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Custom styles for range slider */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #667EEA;
+  cursor: pointer;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.3);
+  transition: background .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #667EEA;
+  cursor: pointer;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.3);
+  transition: background .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+input[type="range"]::-ms-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #667EEA;
+  cursor: pointer;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.3);
+  transition: background .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+

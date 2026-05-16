@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: safespace-frontend
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm run preview
+    envVars:
+      - key: VITE_API_URL
+        value: https://safespace-backend.onrender.com
+      - key: VITE_WS_URL
+        value: wss://safespace-backend.onrender.com/ws/mood/
