@@ -8,6 +8,8 @@ import SecretHandshake from './components/SecretHandshake';
 import Settings from './pages/Settings';
 import PartnerConnection from './components/PartnerConnection';
 import Spinner from './components/Spinner';
+import EditProfile from './components/EditProfile';
+import PrivacySettings from './components/PrivacySettings';
 import { offlineStorage, registerSync, registerNetworkListeners } from './utils/offlineStorage';
 import './index.css';
 
@@ -83,6 +85,22 @@ const App = () => {
             element={
               <PrivateRoute>
                 <PartnerConnection />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <EditProfile />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/privacy"
+            element={
+              <PrivateRoute>
+                <PrivacySettings />
               </PrivateRoute>
             }
           />
