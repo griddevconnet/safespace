@@ -149,3 +149,37 @@ async function clearOfflineMoods() {
     };
   });
 }
+
+// Handle push notifications
+self.addEventListener('push', (event) => {
+  const options = {
+    body: event.data?.text() || 'You have a new notification',
+    icon: '/favicon.ico',
+    badge: '/favicon.ico',
+    vibrate: [200, 100, 200],
+    data: {
+      dateOfArrival: Date.now(),
+      primaryKey: 1
+    },
+    actions: [
+      {
+        action: 'explore',
+        title: 'Open SafeSpace',
+        icon: '/favicon.ico'
+      }
+    ]
+  };
+
+  event.waitUntil(
+    self.registration.showNotification('SafeSpace', options)
+  );
+});
+
+// Handle notification click
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+
+  event.waitUntil(
+    clients.openWindow('/')
+  );
+});

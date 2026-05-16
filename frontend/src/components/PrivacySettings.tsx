@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FiShield, FiEye, FiBell, FiVolume2, FiLock } from 'react-icons/fi';
 import api from '../api';
+import { usePushNotifications } from '../hooks/usePushNotifications';
 
 interface PrivacySettings {
   is_private: boolean;
@@ -24,6 +25,13 @@ const PrivacySettings: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
+  const {
+    permission: notificationPermission,
+    subscribe: subscribeToPush,
+    unsubscribe: unsubscribeFromPush,
+    loading: pushLoading
+  } = usePushNotifications();
+
   useEffect(() => {
     fetchSettings();
   }, []);
@@ -41,6 +49,17 @@ const PrivacySettings: React.FC = () => {
 
   const handleToggle = async (key: keyof PrivacySettings) => {
     const newSettings = { ...settings, [key]: !settings[key] };
+    
+    // Handle push notification subscription
+    if (key === 'notification_enabled' && newSettings.notification_enabled) {
+      const subscribed = await subscribeToPush();
+      if (!subscribed) {
+        return; // Don't toggle if subscription failed
+      }
+    } else if (key === 'notification_enabled' && !newSettings.notification_enabled) {
+      await unsubscribeFromPush();
+    }
+    
     setSettings(newSettings);
     await saveSettings(newSettings);
   };
@@ -330,7 +349,12 @@ const PrivacySettings: React.FC = () => {
                 </div>
                 <div className="setting-info">
                   <div className="setting-label">Enable Notifications</div>
-                  <div className="setting-description">Receive push notifications for mood updates</div>
+                  <div className="setting-description">
+                    Receive push notifications for mood updates
+                    {notificationPermission === 'denied' && (
+                      <span style={{ color: '#DC2626', marginLeft: '0.5rem' }}>(Blocked)</span>
+                    )}
+                  </div>
                 </div>
               </div>
               <label className="toggle-switch">
@@ -339,7 +363,7 @@ const PrivacySettings: React.FC = () => {
                   className="toggle-input"
                   checked={settings.notification_enabled}
                   onChange={() => handleToggle('notification_enabled')}
-                  disabled={saving}
+                  disabled={saving || pushLoading || notificationPermission === 'denied'}
                 />
                 <span className="toggle-slider"></span>
               </label>
