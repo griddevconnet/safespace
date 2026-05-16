@@ -32,6 +32,13 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('display_name', 'bio', 'avatar', 'birth_date', 'phone_number')
+        extra_kwargs = {
+            'display_name': {'required': False},
+            'bio': {'required': False},
+            'avatar': {'required': False},
+            'birth_date': {'required': False},
+            'phone_number': {'required': False},
+        }
 
 class PushSubscriptionSerializer(serializers.ModelSerializer):
     class Meta:

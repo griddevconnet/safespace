@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import { motion } from 'framer-motion';
-import { FiLogOut, FiSettings, FiUser, FiBell, FiMoon, FiSun } from 'react-icons/fi';
+import { FiLogOut, FiSettings, FiUser, FiBell } from 'react-icons/fi';
 
 const GoogleFonts = () => (
   <style>{`
@@ -13,13 +13,6 @@ const GoogleFonts = () => (
 const Settings = () => {
   const navigate = useNavigate();
   const { username, userId, logout } = useAuth();
-  const [theme, setTheme] = React.useState(localStorage.getItem('theme') || 'light');
-  const [notifications, setNotifications] = React.useState(true);
-
-  React.useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-  }, [theme]);
 
   const handleLogout = () => {
     logout();
@@ -211,32 +204,6 @@ const Settings = () => {
           {/* App Settings */}
           <div style={styles.section}>
             <div style={styles.sectionTitle}>App Settings</div>
-
-            <div style={styles.settingItem}>
-              <div style={styles.settingLabel}>
-                <FiBell style={styles.settingIcon} />
-                <span>Notifications</span>
-              </div>
-              <div 
-                style={styles.toggle}
-                onClick={() => setNotifications(!notifications)}
-              >
-                <div style={styles.toggleCircle} />
-              </div>
-            </div>
-
-            <div style={styles.settingItem}>
-              <div style={styles.settingLabel}>
-                {theme === 'light' ? <FiSun style={styles.settingIcon} /> : <FiMoon style={styles.settingIcon} />}
-                <span>Theme</span>
-              </div>
-              <div 
-                style={styles.toggle}
-                onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-              >
-                <div style={styles.toggleCircle} />
-              </div>
-            </div>
           </div>
 
           {/* Account Settings */}
