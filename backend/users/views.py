@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate, get_user_model
-from .serializers import RegisterSerializer, UserSerializer
+from .serializers import RegisterSerializer, UserSerializer, ProfileUpdateSerializer
 
 User = get_user_model()
 
@@ -108,3 +108,46 @@ class DisconnectPartnerView(APIView):
         partner.save()
 
         return Response({'message': 'Successfully disconnected from partner'})
+
+class ProfileUpdateView(generics.UpdateAPIView):
+    serializer_class = ProfileUpdateSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_object(self):
+        return self.request.user
+
+class PrivacySettingsView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request):
+        """Get current user's privacy settings"""
+        user = request.user
+        return Response({
+            'is_private': user.is_private,
+            'show_mood_to_partner': user.show_mood_to_partner,
+            'show_activity_status': user.show_activity_status,
+            'notification_enabled': user.notification_enabled,
+            'notification_sound': user.notification_sound
+        })
+
+    def put(self, request):
+        """Update privacy settings"""
+        user = request.user
+        user.is_private = request.data.get('is_private', user.is_private)
+        user.show_mood_to_partner = request.data.get('show_mood_to_partner', user.show_mood_to_partner)
+        user.show_activity_status = request.data.get('show_activity_status', user.show_activity_status)
+        user.notification_enabled = request.data.get('notification_enabled', user.notification_enabled)
+        user.notification_sound = request.data.get('notification_sound', user.notification_sound)
+        user.save()
+        
+        return Response({
+            'message': 'Privacy settings updated successfully',
+            'settings': {
+                'is_private': user.is_private,
+                'show_mood_to_partner': user.show_mood_to_partner,
+                'show_activity_status': user.show_activity_status,
+                'notification_enabled': user.notification_enabled,
+                'notification_sound': user.notification_sound
+            }
+        })
+

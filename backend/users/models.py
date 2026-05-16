@@ -6,6 +6,18 @@ class CustomUser(AbstractUser):
     partner_code = models.CharField(max_length=8, unique=True, blank=True, null=True)
     partner = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='partner_of')
 
+    # Profile fields
+    display_name = models.CharField(max_length=100, blank=True, null=True)
+    bio = models.TextField(max_length=500, blank=True, null=True)
+    avatar = models.URLField(blank=True, null=True)
+    birth_date = models.DateField(blank=True, null=True)
+    phone_number = models.CharField(max_length=20, blank=True, null=True)
+    is_private = models.BooleanField(default=False)
+    show_mood_to_partner = models.BooleanField(default=True)
+    show_activity_status = models.BooleanField(default=True)
+    notification_enabled = models.BooleanField(default=True)
+    notification_sound = models.BooleanField(default=True)
+
     def save(self, *args, **kwargs):
         if not self.partner_code:
             import random

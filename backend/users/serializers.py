@@ -7,7 +7,8 @@ User = get_user_model()
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'email')
+        fields = ('id', 'username', 'email', 'display_name', 'bio', 'avatar', 'birth_date', 'phone_number', 
+                  'is_private', 'show_mood_to_partner', 'show_activity_status', 'notification_enabled', 'notification_sound')
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
@@ -25,3 +26,8 @@ class RegisterSerializer(serializers.ModelSerializer):
         # Automatically create a token for the user upon registration
         Token.objects.create(user=user)
         return user
+
+class ProfileUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('display_name', 'bio', 'avatar', 'birth_date', 'phone_number')
